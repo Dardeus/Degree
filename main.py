@@ -15,6 +15,7 @@ while success:
 
 image_folder = '.'
 video_name = 'video.MP4V'
+fps  = vidcap.get(cv2.CAP_PROP_FPS)
 
 #images = [img for img in os.listdir(image_folder) if "frame" in img]
 
@@ -24,7 +25,7 @@ print(images)
 frame = cv2.imread(os.path.join(image_folder, images[0]))
 height, width, layers = frame.shape
 
-video = cv2.VideoWriter(video_name, 0, 30, (width,height))
+video = cv2.VideoWriter(video_name, 0, fps, (width,height))
 
 for image in images:
     video.write(cv2.imread(os.path.join(image_folder, image)))
