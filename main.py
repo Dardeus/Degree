@@ -1,16 +1,33 @@
-# This is a sample Python script.
+import cv2
+import os
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+vidcap = cv2.VideoCapture("TestVideo23.mp4")
+print(vidcap.read())
+success,image = vidcap.read()
+count = 0
+success = True
+while success:
+  success, image = vidcap.read()
+  if success == False:
+    break
+  cv2.imwrite("frame%d.jpg" % count, image)     # save frame as JPEG file
+  count += 1
 
+image_folder = '.'
+video_name = 'video.MP4V'
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+#images = [img for img in os.listdir(image_folder) if "frame" in img]
 
+images = ["frame%d.jpg" % i for i in range (count)]
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+print(images)
+frame = cv2.imread(os.path.join(image_folder, images[0]))
+height, width, layers = frame.shape
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+video = cv2.VideoWriter(video_name, 0, 30, (width,height))
+
+for image in images:
+    video.write(cv2.imread(os.path.join(image_folder, image)))
+
+cv2.destroyAllWindows()
+video.release()
